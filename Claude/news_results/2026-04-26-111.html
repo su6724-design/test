@@ -1,0 +1,505 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>시장 현황 & 주식 뉴스 - 2026년 04월 26일 17:55</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Segoe UI', 'Malgun Gothic', sans-serif; background: #f0f2f5; color: #333; }
+  header { background: #1a1a2e; color: #fff; padding: 22px 32px; display: flex; align-items: baseline; gap: 16px; }
+  header h1 { font-size: 1.4rem; font-weight: 700; }
+  header p { font-size: 0.85rem; color: #aaa; }
+
+  /* ── 시세 섹션 ── */
+  .market-section { padding: 24px 32px 0; display: flex; flex-direction: column; gap: 16px; }
+  .market-group h2.group-title { font-size: 0.85rem; font-weight: 700; color: #888; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 10px; }
+  .mcard-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 14px; }
+  .mcard { background: #fff; border-radius: 10px; overflow: hidden; box-shadow: 0 2px 8px rgba(0,0,0,0.07); }
+  .mcard-head { padding: 10px 14px; display: flex; justify-content: space-between; align-items: center; }
+  .mlabel { font-size: 0.9rem; font-weight: 700; color: #fff; }
+  .munit { font-size: 0.7rem; color: rgba(255,255,255,0.8); }
+  .mcard-body { padding: 10px 14px 6px; }
+  .mcard-price { display: flex; flex-direction: column; gap: 2px; margin-bottom: 6px; }
+  .mprice { font-size: 1.05rem; font-weight: 700; color: #1a1a2e; }
+  .mchange { font-size: 0.8rem; font-weight: 600; }
+  .mchart-wrap { margin: 0 -2px; }
+  .no-data { font-size: 0.82rem; color: #aaa; padding: 8px 0; }
+
+  /* ── 구분선 ── */
+  .section-divider { margin: 24px 32px 0; border: none; border-top: 2px solid #e2e8f0; }
+
+  /* ── 뉴스 섹션 ── */
+  .section-label { padding: 20px 32px 4px; font-size: 0.85rem; font-weight: 700; color: #888; text-transform: uppercase; letter-spacing: 1px; }
+  .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(380px, 1fr)); gap: 20px; padding: 12px 32px 28px; }
+  .card { background: #fff; border-radius: 12px; overflow: hidden; box-shadow: 0 2px 10px rgba(0,0,0,0.08); }
+  .card-header { padding: 14px 20px; display: flex; align-items: center; justify-content: space-between; }
+  .ticker { font-size: 1.2rem; font-weight: 700; color: #fff; letter-spacing: 1px; }
+  .badge { font-size: 0.72rem; color: rgba(255,255,255,0.85); background: rgba(0,0,0,0.15); padding: 3px 9px; border-radius: 20px; }
+  .price-box { display: flex; align-items: center; gap: 12px; padding: 9px 20px; background: #f8f9fa; border-bottom: 1px solid #eee; }
+  .price { font-size: 1.05rem; font-weight: 700; color: #1a1a2e; }
+  .change { font-size: 0.85rem; font-weight: 600; }
+  .card-body { padding: 12px 20px; }
+  .news-item { padding: 13px 0; border-bottom: 1px solid #f0f0f0; }
+  .news-item:last-child { border-bottom: none; }
+  .news-title { font-size: 0.93rem; font-weight: 600; line-height: 1.45; color: #1a1a2e; margin-bottom: 4px; }
+  .news-date { font-size: 0.76rem; color: #999; margin-bottom: 5px; }
+  .news-summary { font-size: 0.83rem; color: #555; line-height: 1.6; margin-bottom: 7px; }
+  .orig-btn { display: inline-block; font-size: 0.72rem; color: #4f8ef7; border: 1px solid #4f8ef7; border-radius: 4px; padding: 2px 9px; text-decoration: none; transition: all 0.18s; }
+  .orig-btn:hover { background: #4f8ef7; color: #fff; }
+  .no-news { color: #aaa; font-size: 0.88rem; padding: 10px 0; }
+  footer { text-align: center; padding: 18px; font-size: 0.78rem; color: #bbb; }
+</style>
+</head>
+<body>
+<header>
+  <h1>시장 현황 & 주식 뉴스</h1>
+  <p>2026년 04월 26일 17:55 기준</p>
+</header>
+
+
+    <section class="market-section">
+      <div class="market-group">
+        <h2 class="group-title">귀금속</h2>
+        <div class="mcard-grid">
+        <div class="mcard">
+          <div class="mcard-head" style="background:#c9a84c">
+            <span class="mlabel">금 (Gold)</span>
+            <small class="munit">USD/oz</small>
+          </div>
+          <div class="mcard-body">
+            <div class="mcard-price">
+              <span class="mprice">4,740.90</span>
+              <span class="mchange" style="color:#2ecc71">▲ +35.80 (+0.76%)</span>
+            </div>
+            <div class="mchart-wrap"><canvas id="c_금_Gold" height="60"></canvas></div>
+          </div>
+        </div>
+        <script>
+          (function(){
+            var ctx = document.getElementById('c_금_Gold').getContext('2d');
+            new Chart(ctx, {
+              type: 'line',
+              data: {
+                labels: ["03/23", "03/24", "03/25", "03/26", "03/27", "03/30", "03/31", "04/01", "04/02", "04/06", "04/07", "04/08", "04/09", "04/10", "04/13", "04/14", "04/15", "04/16", "04/17", "04/20", "04/21", "04/22", "04/23", "04/24"],
+                datasets: [{
+                  data: [4404.1, 4399.3, 4549.8, 4375.5, 4492.0, 4526.0, 4647.6, 4783.2, 4651.5, 4656.8, 4657.1, 4749.5, 4792.2, 4761.9, 4742.4, 4825.0, 4800.0, 4785.4, 4857.6, 4806.6, 4698.4, 4732.5, 4705.1, 4740.9],
+                  borderColor: '#c9a84c',
+                  borderWidth: 2,
+                  pointRadius: 0,
+                  tension: 0.3,
+                  fill: true,
+                  backgroundColor: '#c9a84c22'
+                }]
+              },
+              options: {
+                plugins: { legend: { display: false }, tooltip: { mode: 'index', intersect: false } },
+                scales: {
+                  x: { display: false },
+                  y: { display: false }
+                },
+                animation: false
+              }
+            });
+          })();
+        </script>
+        <div class="mcard">
+          <div class="mcard-head" style="background:#8e8e8e">
+            <span class="mlabel">은 (Silver)</span>
+            <small class="munit">USD/oz</small>
+          </div>
+          <div class="mcard-body">
+            <div class="mcard-price">
+              <span class="mprice">76.41</span>
+              <span class="mchange" style="color:#2ecc71">▲ +0.95 (+1.26%)</span>
+            </div>
+            <div class="mchart-wrap"><canvas id="c_은_Silver" height="60"></canvas></div>
+          </div>
+        </div>
+        <script>
+          (function(){
+            var ctx = document.getElementById('c_은_Silver').getContext('2d');
+            new Chart(ctx, {
+              type: 'line',
+              data: {
+                labels: ["03/23", "03/24", "03/25", "03/26", "03/27", "03/30", "03/31", "04/01", "04/02", "04/06", "04/07", "04/08", "04/09", "04/10", "04/13", "04/14", "04/15", "04/16", "04/17", "04/20", "04/21", "04/22", "04/23", "04/24"],
+                datasets: [{
+                  data: [69.05, 69.27, 72.36, 67.67, 69.54, 70.32, 74.69, 75.87, 72.74, 72.66, 71.83, 75.22, 76.28, 76.32, 75.52, 79.39, 79.49, 78.61, 81.74, 79.95, 76.41, 77.89, 75.46, 76.41],
+                  borderColor: '#8e8e8e',
+                  borderWidth: 2,
+                  pointRadius: 0,
+                  tension: 0.3,
+                  fill: true,
+                  backgroundColor: '#8e8e8e22'
+                }]
+              },
+              options: {
+                plugins: { legend: { display: false }, tooltip: { mode: 'index', intersect: false } },
+                scales: {
+                  x: { display: false },
+                  y: { display: false }
+                },
+                animation: false
+              }
+            });
+          })();
+        </script></div>
+      </div>
+      <div class="market-group">
+        <h2 class="group-title">환율 (원화 기준)</h2>
+        <div class="mcard-grid">
+        <div class="mcard">
+          <div class="mcard-head" style="background:#2563eb">
+            <span class="mlabel">달러 (USD)</span>
+            <small class="munit">원/달러</small>
+          </div>
+          <div class="mcard-body">
+            <div class="mcard-price">
+              <span class="mprice">1,476.32</span>
+              <span class="mchange" style="color:#e74c3c">▼ -3.63 (-0.25%)</span>
+            </div>
+            <div class="mchart-wrap"><canvas id="c_달러_USD" height="60"></canvas></div>
+          </div>
+        </div>
+        <script>
+          (function(){
+            var ctx = document.getElementById('c_달러_USD').getContext('2d');
+            new Chart(ctx, {
+              type: 'line',
+              data: {
+                labels: ["03/16", "03/17", "03/18", "03/19", "03/20", "03/23", "03/24", "03/25", "03/26", "03/27", "03/30", "03/31", "04/01", "04/02", "04/03", "04/06", "04/07", "04/08", "04/09", "04/10", "04/13", "04/14", "04/15", "04/16", "04/17", "04/20", "04/21", "04/22", "04/23", "04/24", "04/25"],
+                datasets: [{
+                  data: [1501.75, 1488.91, 1484.87, 1505.25, 1489.84, 1504.21, 1485.36, 1497.31, 1500.97, 1508.36, 1507.02, 1516.13, 1503.33, 1512.09, 1509.22, 1509.26, 1507.85, 1499.13, 1477.6, 1473.28, 1482.18, 1476.84, 1469.42, 1474.06, 1477.92, 1465.15, 1469.26, 1485.8, 1477.96, 1479.95, 1476.32],
+                  borderColor: '#2563eb',
+                  borderWidth: 2,
+                  pointRadius: 0,
+                  tension: 0.3,
+                  fill: true,
+                  backgroundColor: '#2563eb22'
+                }]
+              },
+              options: {
+                plugins: { legend: { display: false }, tooltip: { mode: 'index', intersect: false } },
+                scales: {
+                  x: { display: false },
+                  y: { display: false }
+                },
+                animation: false
+              }
+            });
+          })();
+        </script>
+        <div class="mcard">
+          <div class="mcard-head" style="background:#7c3aed">
+            <span class="mlabel">유로 (EUR)</span>
+            <small class="munit">원/유로</small>
+          </div>
+          <div class="mcard-body">
+            <div class="mcard-price">
+              <span class="mprice">1,729.90</span>
+              <span class="mchange" style="color:#2ecc71">▲ +0.19 (+0.01%)</span>
+            </div>
+            <div class="mchart-wrap"><canvas id="c_유로_EUR" height="60"></canvas></div>
+          </div>
+        </div>
+        <script>
+          (function(){
+            var ctx = document.getElementById('c_유로_EUR').getContext('2d');
+            new Chart(ctx, {
+              type: 'line',
+              data: {
+                labels: ["03/16", "03/17", "03/18", "03/19", "03/20", "03/23", "03/24", "03/25", "03/26", "03/27", "03/30", "03/31", "04/01", "04/02", "04/03", "04/06", "04/07", "04/08", "04/09", "04/10", "04/13", "04/14", "04/15", "04/16", "04/17", "04/20", "04/21", "04/22", "04/23", "04/24"],
+                datasets: [{
+                  data: [1713.86, 1712.23, 1713.12, 1724.43, 1728.95, 1740.16, 1724.58, 1739.47, 1735.19, 1740.05, 1736.71, 1736.26, 1738.51, 1752.59, 1741.09, 1741.24, 1741.25, 1752.0, 1723.01, 1722.61, 1741.02, 1736.64, 1732.93, 1739.41, 1740.84, 1731.18, 1731.72, 1743.92, 1729.71, 1729.9],
+                  borderColor: '#7c3aed',
+                  borderWidth: 2,
+                  pointRadius: 0,
+                  tension: 0.3,
+                  fill: true,
+                  backgroundColor: '#7c3aed22'
+                }]
+              },
+              options: {
+                plugins: { legend: { display: false }, tooltip: { mode: 'index', intersect: false } },
+                scales: {
+                  x: { display: false },
+                  y: { display: false }
+                },
+                animation: false
+              }
+            });
+          })();
+        </script>
+        <div class="mcard">
+          <div class="mcard-head" style="background:#db2777">
+            <span class="mlabel">엔화 (JPY)</span>
+            <small class="munit">원/100엔</small>
+          </div>
+          <div class="mcard-body">
+            <div class="mcard-price">
+              <span class="mprice">924.20</span>
+              <span class="mchange" style="color:#e74c3c">▼ -2.49 (-0.27%)</span>
+            </div>
+            <div class="mchart-wrap"><canvas id="c_엔화_JPY" height="60"></canvas></div>
+          </div>
+        </div>
+        <script>
+          (function(){
+            var ctx = document.getElementById('c_엔화_JPY').getContext('2d');
+            new Chart(ctx, {
+              type: 'line',
+              data: {
+                labels: ["03/16", "03/17", "03/18", "03/19", "03/20", "03/23", "03/24", "03/25", "03/26", "03/27", "03/30", "03/31", "04/01", "04/02", "04/03", "04/06", "04/07", "04/08", "04/09", "04/10", "04/13", "04/14", "04/15", "04/16", "04/17", "04/20", "04/21", "04/22", "04/23", "04/24"],
+                datasets: [{
+                  data: [941.48, 936.09, 933.85, 942.25, 943.38, 944.75, 936.6, 942.86, 941.75, 944.39, 940.46, 948.49, 948.0, 952.72, 946.24, 944.53, 944.19, 944.46, 931.33, 925.93, 928.13, 927.59, 925.32, 928.13, 928.33, 920.52, 924.9, 932.28, 926.69, 924.2],
+                  borderColor: '#db2777',
+                  borderWidth: 2,
+                  pointRadius: 0,
+                  tension: 0.3,
+                  fill: true,
+                  backgroundColor: '#db277722'
+                }]
+              },
+              options: {
+                plugins: { legend: { display: false }, tooltip: { mode: 'index', intersect: false } },
+                scales: {
+                  x: { display: false },
+                  y: { display: false }
+                },
+                animation: false
+              }
+            });
+          })();
+        </script>
+        <div class="mcard">
+          <div class="mcard-head" style="background:#d97706">
+            <span class="mlabel">위안 (CNY)</span>
+            <small class="munit">원/위안</small>
+          </div>
+          <div class="mcard-body">
+            <div class="mcard-price">
+              <span class="mprice">216.03</span>
+              <span class="mchange" style="color:#2ecc71">▲ +0.00 (+0.00%)</span>
+            </div>
+            <div class="mchart-wrap"><canvas id="c_위안_CNY" height="60"></canvas></div>
+          </div>
+        </div>
+        <script>
+          (function(){
+            var ctx = document.getElementById('c_위안_CNY').getContext('2d');
+            new Chart(ctx, {
+              type: 'line',
+              data: {
+                labels: ["04/25"],
+                datasets: [{
+                  data: [216.03],
+                  borderColor: '#d97706',
+                  borderWidth: 2,
+                  pointRadius: 0,
+                  tension: 0.3,
+                  fill: true,
+                  backgroundColor: '#d9770622'
+                }]
+              },
+              options: {
+                plugins: { legend: { display: false }, tooltip: { mode: 'index', intersect: false } },
+                scales: {
+                  x: { display: false },
+                  y: { display: false }
+                },
+                animation: false
+              }
+            });
+          })();
+        </script></div>
+      </div>
+    </section>
+
+<hr class="section-divider">
+<div class="section-label">주식 뉴스</div>
+<div class="grid">
+        <div class="card">
+          <div class="card-header" style="background:#4f8ef7">
+            <span class="ticker">QQQ</span>
+            <span class="badge">뉴스 3개</span>
+          </div>
+          
+            <div class="price-box">
+              <span class="price">$663.88</span>
+              <span class="change" style="color:#2ecc71">▲ +8.68 (+1.32%)</span>
+            </div>
+          <div class="card-body">
+            <div class="news-item">
+              <div class="news-title">ETF 투자자들이 "설정하고 잊어버리는" 펀드로 계속해서 저지르는 실수</div>
+              <div class="news-date">2026-04-26 05:50</div>
+              <div class="news-summary">장기 매수 후 보유가 포트폴리오를 완전히 무시한다는 의미는 아닙니다. 포트폴리오의 잠재력을 극대화하려면 이 문제와 기타 일반적인 함정을 피하세요.</div>
+              <a href="https://www.fool.com/investing/2026/04/26/mistakes-etf-investors-make-with-set-it-forget-it/" target="_blank" class="orig-btn">원문 보기</a>
+            </div>
+            <div class="news-item">
+              <div class="news-title">트럼프 총격 용의자 31세 칼텍 졸업생이자 명문학교 교사</div>
+              <div class="news-date">2026-04-26 01:36</div>
+              <div class="news-summary">Investing.com -- 지난 토요일 워싱턴 힐튼 총격 사건의 용의자(31세)는 칼텍 졸업생이자 수상 경력이 있는 교사인 콜 앨런(Cole Allen)으로 확인되었습니다. 그는 백악관 특파원 만찬에서 엽총, 권총, 칼로 총격을 가한 뒤 여전히 구금되어 있습니다.</div>
+              <a href="https://www.yahoo.com/news/articles/trump-removed-white-house-correspondents-013651622.html" target="_blank" class="orig-btn">원문 보기</a>
+            </div>
+            <div class="news-item">
+              <div class="news-title">은퇴 후 100만 달러를 원하시나요? 4월부터 3개 인덱스 펀드 매수 시작.</div>
+              <div class="news-date">2026-04-24 18:07</div>
+              <div class="news-summary">100만 달러의 은퇴 포트폴리오는 보기만큼 어려운 것이 아닙니다. 적절한 계획과 이 세 가지 ETF가 오늘 여러분의 길을 안내할 것입니다.</div>
+              <a href="https://www.fool.com/investing/2026/04/24/want-1-million-retirement-3-index-funds-to-buy/" target="_blank" class="orig-btn">원문 보기</a>
+            </div></div>
+        </div>
+        <div class="card">
+          <div class="card-header" style="background:#34a853">
+            <span class="ticker">VOO</span>
+            <span class="badge">뉴스 3개</span>
+          </div>
+          
+            <div class="price-box">
+              <span class="price">$656.42</span>
+              <span class="change" style="color:#2ecc71">▲ +4.15 (+0.64%)</span>
+            </div>
+          <div class="card-body">
+            <div class="news-item">
+              <div class="news-title">이 3개의 Vanguard Index Fund를 구매하면 향후 5년 동안 S&P 500을 이길 수 있습니다.</div>
+              <div class="news-date">2026-04-25 14:27</div>
+              <div class="news-summary">인덱스 펀드로 S&P 500을 능가할 수 있나요? 역사는 당신이 올바른 것을 선택한다면 그렇다고 말합니다.</div>
+              <a href="https://www.fool.com/investing/2026/04/25/buy-these-3-vanguard-index-funds-to-beat-voo/" target="_blank" class="orig-btn">원문 보기</a>
+            </div>
+            <div class="news-item">
+              <div class="news-title">은퇴 후 100만 달러를 원하시나요? 4월부터 3개 인덱스 펀드 매수 시작.</div>
+              <div class="news-date">2026-04-24 18:07</div>
+              <div class="news-summary">100만 달러의 은퇴 포트폴리오는 보기만큼 어려운 것이 아닙니다. 적절한 계획과 이 세 가지 ETF가 오늘 여러분의 길을 안내할 것입니다.</div>
+              <a href="https://www.fool.com/investing/2026/04/24/want-1-million-retirement-3-index-funds-to-buy/" target="_blank" class="orig-btn">원문 보기</a>
+            </div>
+            <div class="news-item">
+              <div class="news-title">DVYE의 5.1% 수익률은 원자재 베팅을 숨깁니다. 퇴직자가 알아야 할 사항은 다음과 같습니다.</div>
+              <div class="news-date">2026-04-24 17:27</div>
+              <div class="news-summary">2026년에는 미국 주식 가치 평가가 상승하는 가운데 투자자들이 수익률을 추구하면서 신흥 시장 배당 펀드가 주목을 받았습니다. iShares Emerging Markets Dividend ETF(NYSEARCA:DVYE)는 브라질, 중국, 대만 및 기타 개발도상국 전역에서 배당금이 높은 약 100개 주식에서 추출한 5.01%의 헤드라인 수익률을 제공합니다.</div>
+              <a href="https://247wallst.com/investing/2026/04/24/dvyes-5-1-yield-hides-a-commodity-bet-heres-what-retirees-should-know/" target="_blank" class="orig-btn">원문 보기</a>
+            </div></div>
+        </div>
+        <div class="card">
+          <div class="card-header" style="background:#e8710a">
+            <span class="ticker">O</span>
+            <span class="badge">뉴스 3개</span>
+          </div>
+          
+            <div class="price-box">
+              <span class="price">$63.33</span>
+              <span class="change" style="color:#e74c3c">▼ -0.71 (-1.11%)</span>
+            </div>
+          <div class="card-body">
+            <div class="news-item">
+              <div class="news-title">1,000달러와 적절한 배당주: 지금 당장 사야 할 주식입니다</div>
+              <div class="news-date">2026-04-26 04:35</div>
+              <div class="news-summary">다른 놀라운 특성 중에서도 5%라는 엄청난 배당수익률을 자랑합니다.</div>
+              <a href="https://www.fool.com/investing/2026/04/26/1000-and-the-right-dividend-stock-realty-income/" target="_blank" class="orig-btn">원문 보기</a>
+            </div>
+            <div class="news-item">
+              <div class="news-title">부동산 소득이 2036년까지 10만 달러를 백만장자 수준의 은퇴로 바꾸는 데 도움이 될 수 있습니까?</div>
+              <div class="news-date">2026-04-25 15:50</div>
+              <div class="news-summary">Realty Income은 수년에 걸쳐 주주들에게 많은 부를 창출해 왔습니다.</div>
+              <a href="https://www.fool.com/investing/2026/04/25/could-realty-income-help-turn-100000-into-a-millio/" target="_blank" class="orig-btn">원문 보기</a>
+            </div>
+            <div class="news-item">
+              <div class="news-title">이 포트폴리오는 매달 나에게 지급됩니다(작업 필요 없음).</div>
+              <div class="news-date">2026-04-24 15:34</div>
+              <div class="news-summary">10년 만기 국채수익률은 4.26%에 머물고 있으며, 연준기금 금리는 4개월 넘게 3.75%를 유지하고 있습니다. 소득에 초점을 맞춘 투자자들에게 이러한 배경은 실제 문제를 야기합니다. 저축 계좌와 단기 채권은 인플레이션을 거의 따라잡지 못하는 수익률을 제공하는 반면, 핵심 PCE는 계속해서...</div>
+              <a href="https://247wallst.com/investing/2026/04/24/this-portfolio-pays-me-every-month-no-work-needed/" target="_blank" class="orig-btn">원문 보기</a>
+            </div></div>
+        </div>
+        <div class="card">
+          <div class="card-header" style="background:#cc0000">
+            <span class="ticker">TSLA</span>
+            <span class="badge">뉴스 3개</span>
+          </div>
+          
+            <div class="price-box">
+              <span class="price">$376.30</span>
+              <span class="change" style="color:#2ecc71">▲ +3.12 (+0.84%)</span>
+            </div>
+          <div class="card-body">
+            <div class="news-item">
+              <div class="news-title">'그의 아버지는 여전히 청구서를 지불합니다'라고 발신자는 인정합니다. 'Ramsey Show' 진행자는 '당신은 어른의 몸에 있는 어린 소년과 결혼하고 있습니다'라고 경고합니다.</div>
+              <div class="news-date">2026-04-26 01:01</div>
+              <div class="news-summary">아버지가 여전히 청구서를 지불하고 있는 약혼자는 결혼 생활에 빚 이상의 것을 가져오는 것일 수 있습니다. 뉴욕의 Caitlin이 "The Ramsey Show"에서 공유한 상황이 바로 이것이었습니다. 그녀는 약혼자가 아버지에게 돈을 지불하고 있다고 썼습니다.</div>
+              <a href="https://finance.yahoo.com/markets/articles/dad-still-pays-bills-caller-010115351.html" target="_blank" class="orig-btn">원문 보기</a>
+            </div>
+            <div class="news-item">
+              <div class="news-title">Tesla의 수익이 전체 내용을 말해주고 있습니까, 아니면 투자자들이 회의적이어야 합니까?</div>
+              <div class="news-date">2026-04-26 00:45</div>
+              <div class="news-summary">숫자 뒤에 숨겨진 "이유"를 더 자세히 살펴볼 가치가 있습니다.</div>
+              <a href="https://www.fool.com/investing/2026/04/25/are-teslas-earnings-telling-the-full-story-or-shou/" target="_blank" class="orig-btn">원문 보기</a>
+            </div>
+            <div class="news-item">
+              <div class="news-title">모건스탠리는 실적 발표 후 테슬라 주식을 무뚝뚝하게 인수했다.</div>
+              <div class="news-date">2026-04-25 22:33</div>
+              <div class="news-summary">Morgan Stanley는 Tesla(TSLA)의 장기 스토리에 대해 여전히 낙관적이지만 투자자들이 혼란스러운 중간을 무시해서는 안 된다고 생각합니다. Tesla는 2026년 4월 22일 수요일에 2026년 1분기 수익 보고서를 엇갈린 반응으로 발표했지만 표면적으로는 수치가 좋아 보였습니다. 추구에 따르면 ...</div>
+              <a href="https://www.thestreet.com/investing/stocks/morgan-stanley-issues-blunt-take-on-tesla-stock-after-earnings" target="_blank" class="orig-btn">원문 보기</a>
+            </div></div>
+        </div>
+        <div class="card">
+          <div class="card-header" style="background:#1a73e8">
+            <span class="ticker">GOOG</span>
+            <span class="badge">뉴스 3개</span>
+          </div>
+          
+            <div class="price-box">
+              <span class="price">$342.32</span>
+              <span class="change" style="color:#2ecc71">▲ +3.62 (+1.07%)</span>
+            </div>
+          <div class="card-body">
+            <div class="news-item">
+              <div class="news-title">Nvidia 주가가 사상 최고치를 기록하며 시가총액이 다시 한번 5조 달러를 넘어섰습니다.</div>
+              <div class="news-date">2026-04-24 17:35</div>
+              <div class="news-summary">엔비디아는 AI 리더이자 세계에서 가장 가치 있는 기업이 다시 5조 달러의 가치 평가선을 넘으면서 사상 최고치를 기록했습니다.</div>
+              <a href="https://finance.yahoo.com/sectors/technology/article/nvidia-stock-clinches-record-close-pushing-market-cap-over-5-trillion-once-again-173529477.html" target="_blank" class="orig-btn">원문 보기</a>
+            </div>
+            <div class="news-item">
+              <div class="news-title">Snowflake는 새로운 엔터프라이즈 기능을 통해 AI 제어 평면이 되는 것을 목표로 합니다.</div>
+              <div class="news-date">2026-04-26 08:02</div>
+              <div class="news-summary">Snowflake(NYSE:SNOW)는 에이전트형 엔터프라이즈 모델 지원을 목표로 하는 새로운 기능으로 Snowflake Intelligence 및 Cortex Code를 확장했습니다. 업데이트는 기술 사용자와 비기술 사용자 모두가 AI를 사용하여 워크플로를 자동화하고 경험을 개인화할 수 있도록 하는 데 중점을 둡니다. Snowflake는 이제 더 많은 정보를 연결합니다.</div>
+              <a href="https://finance.yahoo.com/sectors/technology/articles/snowflake-aims-become-ai-control-080242073.html" target="_blank" class="orig-btn">원문 보기</a>
+            </div>
+            <div class="news-item">
+              <div class="news-title">생각할 필요도 없는 인공 지능(AI) 주식 1개를 5,000달러에 매수하고 장기적으로 보유</div>
+              <div class="news-date">2026-04-26 06:49</div>
+              <div class="news-summary">Alphabet의 막대한 현금 보유량과 이익은 회사가 벤처를 테스트하고 완료될 때까지 확인할 수 있는 많은 시간을 제공합니다.</div>
+              <a href="https://www.fool.com/investing/2026/04/26/1-no-brainer-artificial-intelligence-ai-stock-to-b/" target="_blank" class="orig-btn">원문 보기</a>
+            </div></div>
+        </div>
+        <div class="card">
+          <div class="card-header" style="background:#f4333c">
+            <span class="ticker">KO</span>
+            <span class="badge">뉴스 3개</span>
+          </div>
+          
+            <div class="price-box">
+              <span class="price">$76.63</span>
+              <span class="change" style="color:#2ecc71">▲ +0.43 (+0.56%)</span>
+            </div>
+          <div class="card-body">
+            <div class="news-item">
+              <div class="news-title">코카콜라(KO) 투자 내러티브가 새로운 목표와 배당금 지원으로 변화하는 방법</div>
+              <div class="news-date">2026-04-26 04:15</div>
+              <div class="news-summary">코카콜라의 가격 목표는 최근 가격이 US$87, US$88, US$90인 반면 모델 공정 가치는 US$83.67로 긴밀하게 묶여 있습니다. 이를 통해 기대치가 어디에 설정되어 있는지 명확하게 알 수 있습니다. 연구 회사는 이러한 목표를 북미 지역의 새로운 Top Pick 레이블과 결합하고 있습니다.</div>
+              <a href="https://finance.yahoo.com/markets/stocks/articles/coca-cola-ko-investment-narrative-041555153.html" target="_blank" class="orig-btn">원문 보기</a>
+            </div>
+            <div class="news-item">
+              <div class="news-title">평생 지속되고 전액을 지급하도록 설계된 3가지 배당주</div>
+              <div class="news-date">2026-04-25 08:35</div>
+              <div class="news-summary">이러한 필수 소비재 거대 기업은 해마다 계속해서 돈을 지불하도록 만들어졌습니다.</div>
+              <a href="https://www.fool.com/investing/2026/04/25/dividend-stocks-last-lifetime-pay-whole-way/" target="_blank" class="orig-btn">원문 보기</a>
+            </div>
+            <div class="news-item">
+              <div class="news-title">RBC는 코카콜라가 글로벌 거시적 변동성에도 불구하고 분기별 인라인 인쇄를 준비하고 있다고 밝혔습니다.</div>
+              <div class="news-date">2026-04-24 19:07</div>
+              <div class="news-summary">코카콜라(KO)의 1분기 실적은 월스트리트 기대에 부응할 것으로 보인다.</div>
+              <a href="https://finance.yahoo.com/markets/stocks/articles/coca-cola-poised-line-quarterly-190722008.html" target="_blank" class="orig-btn">원문 보기</a>
+            </div></div>
+        </div>
+</div>
+<footer>QQQ · VOO · O · TSLA · GOOG · KO &nbsp;|&nbsp; 금 · 은 · 달러 · 유로 · 엔화 · 위안 &nbsp;|&nbsp; yfinance 기반 자동 수집</footer>
+</body>
+</html>
